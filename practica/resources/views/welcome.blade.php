@@ -8,15 +8,20 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">People</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <a class="navbar-brand col-md-8" href="/">People</a>
+        <div>
+            <form class="form" method="post" action="{{ route('country.store') }}">
+                @csrf
+                <label class="text-white">Country</label>
+                <input type="text" name="name">
+                <button type="submit" class="btn btn-primary">Agregar</button>
+            </form>
+        </div>
     </nav>
 
     <section class="container">
         <h1 class="my-4 text-center">People</h1>
-        <form class="form" action="{{route('person.store')}}" method="post">
+        <form class="form" method="post" action="{{ route('person.store') }}">
             @csrf
             <div class="form-group">
                 <div class="col-md-12">
@@ -39,6 +44,14 @@
                     <label>Neighborhood</label>
                     <input class="form-control" type="text" name="neighborhood">
                 </div>
+                <div class="col-md-12">
+                    <label>Country</label>
+                    <select name="country_id" class="btn btn-outline-light text-dark form-control">
+                        @foreach($country as $elements)
+                        <option class="btn btn-outline-light text-dark" value="{{ $elements->id }}">{{ $elements->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="col-md-12 mt-4 text-center">
                     <button class="btn btn-primary" type="submit">Save</button>
                 </div>
@@ -52,6 +65,7 @@
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Neighborhood</th>
+                    <th>Country</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -63,6 +77,7 @@
                         <td>{{ $person->email }}</td>
                         <td>{{ $person->phone }}</td>
                         <td>{{ $person->neighborhood }}</td>
+                        <td>{{ $country[$person->country_id-1]->name}}</td>
                         <td>
                             <a href="{{ route('person.update', $person->id) }}" class="btn btn-warning text-white">Edit</a>
                             <a href="{{ route('person.delete', $person->id) }}" class="btn btn-danger text-white">Delete</a>

@@ -1,6 +1,6 @@
 <template>
-    <form class="form">
-        <div class="form-group" @submit.prevent="store">
+    <form class="form" @submit.prevent="store">
+        <div class="form-group">
             <div class="col-md-12">
                 <label>Name</label>
                 <input class="form-control" type="text" v-model="people.name">
@@ -46,9 +46,7 @@
 
         methods: {
             async store() {
-                await axios.post('/Person/store', this.people).then(res => {
-                    console.log(res);
-                })
+                await axios.post('/Person/store', this.people)
             }
         }
     }

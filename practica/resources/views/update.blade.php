@@ -2,61 +2,57 @@
 
 @section('content')
 <section class="container">
-    <h1 class="my-4 text-center">People</h1>
-    <form class="form" method="post" action="{{ route('person.update_data', $person->id) }}">
-        @csrf
-        <div class="form-group">
-            <div class="col-md-12">
-                <label>Name</label>
-                <input class="form-control" type="text" name="name" value="{{ $person->name }}">
-            </div>
-            <div class="col-md-12">
-                <label>Last Name</label>
-                <input class="form-control" type="text" name="lastName" value="{{ $person->lastName }}">
-            </div>
-            <div class="col-md-12">
-                <label>Email</label>
-                <input class="form-control" type="email" name="email" value="{{ $person->email }}">
-            </div>
-            <div class="col-md-12">
-                <label>Phone</label>
-                <input class="form-control" type="number" name="phone" value="{{ $person->phone }}">
-            </div>
-            <div class="col-md-12">
-                <label>Neighborhood</label>
-                <input class="form-control" type="text" name="neighborhood" value="{{ $person->neighborhood }}">
-            </div>
-            <div class="col-md-12">
-                <label>Country</label>
-                <select name="country_id" class="btn btn-outline-light text-dark form-control">
-                    @foreach($country as $c)
-                        <option class="btn btn-outline-light text-dark" value="{{ $c->id }}">{{ $c->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-12 mt-4 text-center">
-                <button class="btn btn-primary" type="submit">Save</button>
+    <div>
+        <a type="button" data-toggle="modal" data-target="#sonModal" class="col-12 text-decoration-none">
+            <h1 class="text-center">People</h1>
+        </a>
+    </div>
+    <div>
+        <form-people :country="{{ $country }}"></form-people>
+    </div>
+    <div>
+        <table  class="table table-striped mt-4">
+            <thead>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Actions</th>
+            </thead>
+            <tbody>
+                @foreach($person->sons as $element)
+                    <tr>
+                        <td>{{ $element->name }}</td>
+                        <td>{{ $element->age }}</td>
+                        <td>
+                            <a class="btn btn-primary" href="{{ route('son.update', $element->id) }}">Edit</a>
+                            <a class="btn btn-primary" href="{{ route('son.delete', $element->id) }}">Delete</a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="sonModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form role="form" action="{{ route('person.addSon', $person->id) }}" method="post">
+                        @csrf
+                        <div>
+                            <Label><h1>Ojala funcionara</h1></Label>
+                        </div>
+                        <div>
+                            <label>Name</label>
+                            <input class="form-control" type="text">
+                        </div>
+                        <div>
+                            <label>Age</label>
+                            <input class="form-control" type="number">
+                        </div>
+                        <button class="btn btn-primary text-center mt-4" type="submit">Add</button>
+                    </form>
+                </div>
             </div>
         </div>
-    </form>
-    <table  class="table table-striped mt-4">
-        <thead>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Actions</th>
-        </thead>
-        <tbody>
-            @foreach($person->sons as $element)
-                <tr>
-                    <td>{{ $element->name }}</td>
-                    <td>{{ $element->age }}</td>
-                    <td>
-                        <a class="btn btn-primary" href="{{ route('son.update', $element->id) }}">Edit</a>
-                        <a class="btn btn-primary" href="{{ route('son.delete', $element->id) }}">Delete</a>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+    </div>
 </section>
 @endsection

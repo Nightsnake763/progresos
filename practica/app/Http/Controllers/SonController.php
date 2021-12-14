@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 
 class SonController extends Controller
 {
-    public function update($id){
+    public function edit($id){
         $son = Son::find($id);
         return view('updateSon', compact('son'));
     }
 
-    public function update_data(Request $request, $id){
+    public function update(Request $request, $id){
         $son = Son::find($id);
         $son->update($request->all());
 

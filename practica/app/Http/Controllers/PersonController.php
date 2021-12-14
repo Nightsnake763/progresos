@@ -13,36 +13,42 @@ class PersonController extends Controller
         $person = new Person($request->all());
         $person->save();
 
-        return $request;
+        return response()->json([
+            'saved' => true,
+            'person' => $person
+        ]);
     }
 
-    public function delete($id){
-        $person = Person::find($id);
+    public function delete( Person $person){
         $person->delete();
 
-        return back();
+        return response()->json([
+            'saved' => true,
+        ]);
     }
 
-    public function update(Request $request, $id){
-        $person = Person::find($id);
+    public function edit(Request $request, Person $person){
         $country = Country::get();
         return view('update', compact('person', 'country'));
     }
 
-    public function update_data(Request $request, $id){
-        $person = Person::find($id);
+    public function update(Request $request, Person $person){
         $person->update($request->all());
         $person->save();
 
         //return $request;
-        return redirect("/");
+       return response()->json([
+            'saved' => true,
+            'person' => $person
+        ]);
     }
 
     public function addSon(Request $request, $id){
         $son = new Son($request->all());
         $son->person_id = $id;
+        /*
         $son->save();
-
-        return back();
+        */
+        return $request;
     }
 }

@@ -10,6 +10,6 @@ class Country extends Model
 
     public function user()
     {
-        return this->hasOne(Person::class);
+        return $this->hasOne(Person::class);
     }
 }

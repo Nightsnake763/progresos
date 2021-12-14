@@ -49,6 +49,7 @@ class PersonController extends Controller
         /*
         $son->save();
         */
-        return $request;
+
+        return $id;
     }
 }

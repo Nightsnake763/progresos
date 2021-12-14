@@ -21,3 +21,5 @@ Route::post('/Person/addSon/{id}', 'PersonController@addSon')->name('person.addS
 Route::get('/son/update/{id}', 'SonController@update')->name('son.update');
 Route::post('/Son/update_data/{id}', 'SonController@update_data')->name('son.update_data');
 Route::get('/son/delete/{id}', 'SonController@delete')->name('son.delete');
+
+Auth::routes();

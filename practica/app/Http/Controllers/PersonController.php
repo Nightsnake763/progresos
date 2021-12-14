@@ -12,7 +12,8 @@ class PersonController extends Controller
     public function store(Request $request){
         $person = new Person($request->all());
         $person->save();
-        return back();
+
+        return $request;
     }
 
     public function delete($id){

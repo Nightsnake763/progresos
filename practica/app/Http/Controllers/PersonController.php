@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Son;
 use App\Models\Country;
 use App\Models\Person;
+use App\Http\Requests\PersonRequest;
 use Illuminate\Http\Request;
 
 class PersonController extends Controller
 {
-    public function store(Request $request){
+    public function store(PersonRequest $request){
         $person = new Person($request->all());
         $person->save();
 
@@ -19,11 +19,11 @@ class PersonController extends Controller
         ]);
     }
 
-    public function delete( Person $person){
-        $person->delete();
+    public function delete(Person $person){
+        $person::with('sons')->delete(); //En mi mente esto iba a elimiar tanto a la persona como a sus hijos pero no funciono
 
         return response()->json([
-            'saved' => true,
+            'deleted' => true,
         ]);
     }
 
@@ -32,24 +32,13 @@ class PersonController extends Controller
         return view('update', compact('person', 'country'));
     }
 
-    public function update(Request $request, Person $person){
+    public function update(PersonRequest $request, Person $person){
         $person->update($request->all());
         $person->save();
 
-        //return $request;
-       return response()->json([
+        return response()->json([
             'saved' => true,
             'person' => $person
         ]);
-    }
-
-    public function addSon(Request $request, $id){
-        $son = new Son($request->all());
-        $son->person_id = $id;
-        /*
-        $son->save();
-        */
-
-        return $id;
     }
 }

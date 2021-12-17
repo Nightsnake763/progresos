@@ -21,7 +21,7 @@
                 <td>{{ country[person.country_id - 1].name }}</td>
                 <td>
                     <a :href="`/Person/edit/${ person.id }`" class="btn btn-warning">Edit</a>
-                    <a :href="`/Person/delete/${ person.id }`" class="btn btn-danger">Delete</a>
+                    <a @click.prevent="deletePerson(person, index)" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         </tbody>
@@ -30,6 +30,16 @@
 
 <script>
     export default {
-        props: ['people', 'country']
+        props: ['people', 'country'],
+
+        methods: {
+            async deletePerson(person, index) {
+                await axios.delete(`/Person/delete/${person.id}`).then(res => {
+                    if (res.data.deleted) {
+                        this.$parent.all_people.splice(index, 1)
+                    }
+                })
+            }
+        }
     }
 </script>

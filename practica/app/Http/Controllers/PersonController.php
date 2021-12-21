@@ -20,7 +20,8 @@ class PersonController extends Controller
     }
 
     public function delete(Person $person){
-        $person::with('sons')->delete(); //En mi mente esto iba a elimiar tanto a la persona como a sus hijos pero no funciono
+        $person->sons()->delete();
+        $person->delete(); //En mi mente esto iba a elimiar tanto a la persona como a sus hijos pero no funciono
 
         return response()->json([
             'deleted' => true,
